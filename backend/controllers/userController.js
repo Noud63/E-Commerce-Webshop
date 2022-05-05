@@ -8,21 +8,21 @@ import generateToken from '../utils/generateToken.js'
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
-    const user =  await User.findOne({ email: email})
-    const pass =  await user.matchPassword(password)
+    const user = await User.findOne({ email: email })
 
-    if (user && pass) { // using bcrypt in the userModel
-   res.json({
-       _id: user._id,
-       name: user.name,
-       email: user.email,
-       isAdmin: user.isAdmin,
-       token: generateToken(user._id)
-   })
-   } else{
-       res.status(401)
-       throw new Error('Invalid email or password')
-   }   
+    if (user && (await user.matchPassword(password))) { // using bcrypt in the userModel
+
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id)
+        })
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password')
+    }
 })
 
 //@desc Register new user
@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const userExist = await User.findOne({ email: email })
 
-    if (userExist) { 
+    if (userExist) {
         res.status(400)
         throw new Error('User already exists!')
     }
@@ -44,7 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
         password
     })
 
-    if(user){
+    if (user) {
         res.status(201).json({
             _id: user._id,
             name: user.name,
@@ -52,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         })
-    }else{
+    } else {
         res.status(400)
         throw new Error('Invalid user data!')
     }
@@ -65,14 +65,14 @@ const registerUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
     //req.user generally, it is inserted from the authorization middleware where we compare user by the token.(JWT).
     const user = await User.findById(req.user._id)
-    if(user){
+    if (user) {
         res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
         })
-    }else{
+    } else {
         res.status(404)
         throw new Error('User not found!')
     }
