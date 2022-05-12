@@ -20,19 +20,18 @@ const importData = async () => {
         await User.deleteMany()
 
         const createdUsers = await User.insertMany(users)
-
         const adminUser = createdUsers[0]._id
 
-        const sampleProducts = products.map( product => {
-                   return { ...product, user: adminUser}    
+        const sampleProducts = products.map(product => {
+            return { ...product, user: adminUser }
         })
-        
+
         await Product.insertMany(sampleProducts)
-        console.log('Data Imported!' .green)
+        console.log('Data Imported!')
         process.exit()
 
     } catch (error) {
-        console.error(`${error}` .red)
+        console.error(`${error}`.red)
         process.exit(1)
     }
 }
@@ -44,7 +43,7 @@ const destroyData = async () => {
         await Product.deleteMany()
         await User.deleteMany()
 
-       
+
         console.log('Data Destroyed!'.red)
         process.exit()
 
@@ -55,8 +54,8 @@ const destroyData = async () => {
 }
 
 // If command is 'node backend/seeder -d'
-if(process.argv[2] === '-d') {
-     destroyData()
-}else{
+if (process.argv[2] === '-d') {
+    destroyData()
+} else {
     importData()
 }
