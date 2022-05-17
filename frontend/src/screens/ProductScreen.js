@@ -10,7 +10,7 @@ import { addToCart } from '../actions/cartActions'
 
 
 const ProductScreen = ({ history, match }) => {
-    console.log(history)                                                       // => {length: 7, action: "PUSH", location: {…}, createHref: ƒ, push: ƒ, …}
+    //history  => {length: 7, action: "PUSH", location: {…}, createHref: ƒ, push: ƒ, …}
 
     const [qty, setQty] = useState(1)
 
