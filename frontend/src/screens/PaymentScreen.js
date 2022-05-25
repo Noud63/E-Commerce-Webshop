@@ -21,6 +21,7 @@ const PaymentScreen = ({ history }) => {
     const dispatch = useDispatch()
 
     const submitHandler = (e) => {
+        
         e.preventDefault()
         dispatch(savePaymentMethod(paymentMethod))
         history.push('/placeOrder')
@@ -35,7 +36,6 @@ const PaymentScreen = ({ history }) => {
                 <Form.Group>
                     <Form.Label ass='legend'>Select Method</Form.Label>
 
-
                     <Col>
                         <Form.Check
                             type='radio'
@@ -47,15 +47,15 @@ const PaymentScreen = ({ history }) => {
                             onChange={(e) => setPaymentMethod(e.target.value)}>
                         </Form.Check>
 
-                        {/* <Form.Check
-                        type='radio'
-                        labe='Stripe'
-                        id='Stripe'
-                        name='PaymentMethod'
-                        value='Stripe'
-                        checked
-                        onChenge={(e) => setPaymentMethod(e.target.value)}>
-                    </Form.Check> */}
+                        <Form.Check
+                            type='radio'
+                            label='Stripe'
+                            id='Stripe'
+                            name='PaymentMethod'
+                            value='Stripe'
+                            onChange={(e) => setPaymentMethod(e.target.value)}>
+                        </Form.Check>
+
                     </Col>
                 </Form.Group>
                 <Button type='submit' variant='primary'>Continue</Button>
