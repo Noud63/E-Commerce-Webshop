@@ -1,5 +1,6 @@
 import Order from '../models/orderModel.js'
 import asyncHandler from 'express-async-handler'
+import mongoose from 'mongoose'
 
 //@desc Create new order
 //@route POST /api/orders
@@ -81,4 +82,13 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     }
 })
 
-export { addOrderItems, getOrderById, updateOrderToPaid }
+
+//@desc GET logged in user orders
+//@route GET /api/orders/myorders
+//@access Private
+const getMyOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id })  // Only the logged in user
+    res.json(orders)
+})
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders }

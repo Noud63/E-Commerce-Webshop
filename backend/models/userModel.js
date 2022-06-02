@@ -5,36 +5,37 @@ const userSchema = mongoose.Schema(
     {
         name: {
             type: String,
-            required: true
+            required: true,
         },
         email: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         password: {
             type: String,
-            required: true
+            required: true,
         },
         isAdmin: {
             type: Boolean,
             required: true,
-            default: false
+            default: false,
         },
+    },
+    {
+        timestamps: true,
+    }
+)
 
-    }, {
-    timestamps: true
-})
-
-userSchema.methods.matchPassword = async function (enteredPassword) {   //use a regular function (this binding)
-    return await bcrypt.compare(enteredPassword, this.password)        // use 'this' to point to that specific user object
+userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password)
 }
 
-//hash the password ( you can do this also in the registerUser controller )
 userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {    // if there is no password added or modified then move on and hash the given password
+    if (!this.isModified('password')) {
         next()
     }
+
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
 })
@@ -42,3 +43,4 @@ userSchema.pre('save', async function (next) {
 const User = mongoose.model('User', userSchema)
 
 export default User
+

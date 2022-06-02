@@ -25,7 +25,7 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
         case CART_REMOVE_ITEM:
             return {
                 ...state,
-                cartItems: state.cartItems.filter(item => item.product !== action.payload)    // payload is id from cartActions/removeFromCart()
+                cartItems: state.cartItems.filter(item => item.product !== action.payload)    // payload and product === id from cartActions/removeFromCart()
             }
 
         case CART_SAVE_SHIPPING_ADDRESS:
