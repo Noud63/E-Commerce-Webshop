@@ -43,7 +43,7 @@ const UserListScreen = ({ history }) => {
                         <th></th>
                     </thead>
                     <tbody>
-                        {users.map(user => {
+                        {users && users.map(user => {
                             return <tr key={user._id}>
                                 <td>{user._id}</td>
                                 <td>{user.name}</td>
